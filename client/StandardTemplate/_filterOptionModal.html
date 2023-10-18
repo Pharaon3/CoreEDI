@@ -1,0 +1,146 @@
+<template name="_filterOptionModal">
+    <div class="modal fade" id="_filterOptionModal" tabindex="-1" role="dialog" aria-labelledby="filterOptionModal"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <label class="text-nowrap">
+                        <h5 style="margin-bottom: 8px;">Product Filter</h5>
+                    </label>
+                    <div class="row filterOption">
+                        <div class="col-12 col-lg-1" style="padding: 0;">
+                            <div class="form-group" style="margin-left: 4px;padding-left:4px; width: 80%;">
+                                <div class="row" style="padding-left: 20px;">
+                                    <button type="button" class="btn btn-danger btn-rounded btn-sm removeCategoryRowBtn"
+                                        style="margin-bottom: 0.5em;" onclick=removeOption(0)><i
+                                            class="fa fa-remove"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-7" style="padding: 0;">
+                            <div class="row" style="padding-left: 20px;">
+                                <div class="form-group" style="margin-left: 4px;padding-left:4px; width: 80%;">
+                                    <!-- <label class="text-nowrap">
+                                        <h5 style="margin-bottom: 8px;">Category</h5>
+                                    </label> -->
+                                    <select class=" form-control" id="magento_cIdentify" name="cIdentify"
+                                        style="cursor: pointer;">
+                                        <option value="0">Bags</option>
+                                        <option value="1">Ancillary</option>
+                                        <option value="2">Parts/Accessories</option>
+                                        <option value="3">Consumables</option>
+                                        <option value="4">Devices</option>
+                                        <option value="5">Fire</option>
+                                    </select>
+                                    <!-- {{> toggle_button}} -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-2" style="padding: 0;">
+                            <div class="row" style="padding-left: 20px;">
+                                <div class="form-group" style="margin-left: 4px;padding-left:4px; width: 80%;">
+                                    <!-- <label class="text-nowrap">
+                                        <h5 style="margin-bottom: 8px;">Category</h5>
+                                    </label> -->
+                                    <label class="toggle">
+                                        <input type="checkbox">
+                                        <span class="labels" data-on="And" data-off="Or"></span>
+                                    </label>
+                                    <!-- {{> toggle_button}} -->
+                                </div>
+                                <!-- <div class="form-group" style="margin-left: 4px;padding-left:4px; width: 80%">
+                                    <div class="button r" id="button-3">
+                                        <input type="checkbox" class="checkbox" />
+                                        <div class="knobs"></div>
+                                        <div class="layer"></div>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row filterOption">
+                        <div class="col-12 col-lg-1" style="padding: 0;">
+                            <div class="form-group" style="margin-left: 4px;padding-left:4px; width: 80%;">
+                                <div class="row" style="padding-left: 20px;">
+                                    <button type="button" class="btn btn-danger btn-rounded btn-sm removeCategoryRowBtn"
+                                        style="margin-bottom: 0.5em;" onclick=removeOption(1)><i
+                                            class="fa fa-remove"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-7" style="padding: 0;">
+                            <div class="row" style="padding-left: 20px;">
+                                <div class="form-group" style="margin-left: 4px;padding-left:4px; width: 80%;">
+                                    <!-- <label class="text-nowrap">
+                                        <h5 style="margin-bottom: 8px;">Category</h5>
+                                    </label> -->
+                                    <select class=" form-control" id="magento_cIdentify" name="cIdentify"
+                                        style="cursor: pointer;">
+                                        <option value="0">Bags</option>
+                                        <option value="1">Ancillary</option>
+                                        <option value="2">Parts/Accessories</option>
+                                        <option value="3">Consumables</option>
+                                        <option value="4">Devices</option>
+                                        <option value="5">Fire</option>
+                                    </select>
+                                    <!-- {{> toggle_button}} -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-2" style="padding: 0;">
+                            <div class="row" style="padding-left: 20px;">
+                                <div class="form-group" style="margin-left: 4px;padding-left:4px; width: 80%;">
+                                    <!-- <label class="text-nowrap">
+                                        <h5 style="margin-bottom: 8px;">Category</h5>
+                                    </label> -->
+                                    <label class="toggle">
+                                        <input type="checkbox">
+                                        <span class="labels" data-on="And" data-off="Or"></span>
+                                    </label>
+                                    <!-- {{> toggle_button}} -->
+                                </div>
+                                <!-- <div class="form-group" style="margin-left: 4px;padding-left:4px; width: 80%">
+                                    <div class="button r" id="button-3">
+                                        <input type="checkbox" class="checkbox" />
+                                        <div class="knobs"></div>
+                                        <div class="layer"></div>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-lg-1" style="padding: 0;">
+                    </div>
+                    <div class="col-12 col-lg-7" style="padding: 0;">
+                        <div class="row" style="padding-left: 20px;">
+                            <div class="form-group" style="margin-left: 4px;padding-left:4px; width: 80%">
+                                <button type="button" class="btn btn-primary btnAddNewCategory">
+                                    <i class="fa fa-plus" style="margin-right: 5px;"></i>New
+                                    LIne</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-2" style="padding: 0;">
+                        <div class="row" style="padding-left: 20px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer ui-draggable-handle">
+                    <button type="button" class="btn btn-success btnSaveFrequency"><i class="fa fa-save"
+                            style="margin-right: 5px;"></i>Save</button>
+                    <button type="button" class="btn btn-secondary btnCancelFrequency" data-dismiss="modal"><i
+                            class="fa fa-close" style="margin-right: 5px;"></i>Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function removeOption(i) {
+            // $('.filterOption_' + i).remove();
+        }
+    </script>
+</template>

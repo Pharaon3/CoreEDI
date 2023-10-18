@@ -1,0 +1,1514 @@
+<template name="connectionscard">
+    <style>
+        .results tr[visible='false'],
+        .no-result {
+            display: none;
+        }
+
+        .results tr[visible='true'] {
+            display: table-row;
+        }
+
+        .counter {
+            padding: 8px;
+            color: #ccc;
+        }
+
+        .sideSearch {
+            /*width: 200px;*/
+            overflow-x: hidden;
+            overflow-y: hidden;
+        }
+
+        .cardB {
+            /* max-height: 700px; */
+            overflow-y: auto;
+        }
+
+        .cardB420 {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .rowB {
+            overflow-x: auto;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: rgb(0, 163, 211) !important;
+            background-color: #EDEDED !important;
+            border-color: #00a3d3 #00a3d3 #ededed #00a3d3 !important;
+        }
+
+        .nav-tabs .nav-link {
+            background-color: #fff !important;
+            border-color: #00a3d3 !important;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .sideSearch {
+                width: auto;
+            }
+        }
+
+        #btnView {
+            display: none;
+        }
+
+        @media screen and (min-width: 1025px) {
+            .viewList {
+                display: none;
+            }
+
+            .displayList {
+                height: 115vh;
+            }
+
+            .customerCardParent {
+                height: 100%;
+            }
+        }
+
+        .currentSelect {
+            background-color: #ededed99;
+            color: #00a3d3;
+        }
+
+        @media screen and (max-width: 450px) {
+            .sideSearch {
+                height: 400px !important;
+                overflow-y: scroll;
+            }
+        }
+    </style>
+    <div>
+        <div class="fullScreenSpin" style="display:none;">
+            <div class="spinner"></div>
+        </div>
+        <div style="margin: 16px;">
+            <div class="row">
+                <div class="col-12 col-md-4">
+                    <h2 class="text-dark mb-0">Connection Card
+                    </h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-12 col-lg-12 displayInfo" id="displayInfo"
+                    style="padding-top: 8px; width: 100%;">
+                    <div class="card shadow mb-4 cardSizing">
+                        <div class="card-body text-nowrap">
+                            <div>
+                                <ul class="nav nav-tabs nav-fill">
+                                    <li class="nav-item" style="cursor: pointer;">
+                                        <a class="nav-link mainTab customerTab active" role="tab" data-toggle="tab"
+                                            data-target="#tab-1" data-id="main-tab">
+                                            Connection Details
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content row">
+                                    {{#if equals action "new" }}
+                                    <div class="col-2"></div>
+                                    <div class="col-8">
+                                        <div class="row transferOption">
+                                            <div class="col-12 col-lg-4"
+                                                style="padding: 0; border-right: solid gray 1px;">
+                                                <div class="row" style="padding-left: 20px;">
+                                                    <div class="form-group"
+                                                        style="margin-left: 4px;padding-left:4px; width: 80%;">
+                                                        <label class="text-nowrap">
+                                                            <h5 style="margin-bottom: 8px;">Customer Identify</h5>
+                                                        </label>
+                                                        <select class="form-control" id="magento_cIdentify"
+                                                            name="cIdentify" style="cursor: pointer;">
+                                                            <option value="1">Dene@gmail.com</option>
+                                                            <option value="1">david@gmail.com</option>
+                                                            <option value="0" selected>abc@gmail.com</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-4"
+                                                style="padding: 0; border-right: solid gray 1px;">
+                                                <div class="row" style="padding-left: 20px;">
+                                                    <div class="form-group"
+                                                        style="margin-left: 4px;padding-left:4px; width: 80%;">
+                                                        <label class="text-nowrap">
+                                                            <h5 style="margin-bottom: 8px;">Accounting SoftWare</h5>
+                                                        </label>
+                                                        <select class="form-control" id="magento_cIdentify"
+                                                            name="cIdentify" style="cursor: pointer;">
+                                                            <option value="0" selected>TrueERP</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-4"
+                                                style="padding: 0; border-right: solid gray 1px;">
+                                                <div class="row" style="padding-left: 20px;">
+                                                    <div class="form-group"
+                                                        style="margin-left: 4px;padding-left:4px; width: 80%;">
+                                                        <label class="text-nowrap">
+                                                            <h5 style="margin-bottom: 8px;">Connection SoftWare</h5>
+                                                        </label>
+                                                        <select class="form-control" id="magento_cIdentify"
+                                                            name="cIdentify" style="cursor: pointer;">
+                                                            <option value="0" selected>Magento</option>
+                                                            <option value="0" selected>WooCommerce</option>
+                                                            <option value="0" selected>ZOHO</option>
+                                                            <option value="0" selected>Xero</option>
+                                                            <option value="0" selected>Amazon</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="col-2 d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                <div class="form-group flex-grow-1"
+                                                    style="margin: 4px;padding-left:4px;">
+                                                    <label class="text-nowrap">Sync Page Size</label>
+                                                    <input type="text" class="form-control"
+                                                        id="magento_sync_page_size" name="edtMiddleName"
+                                                        value="{{record.synch_page_size}}">
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                        <div class="d-xl-flex justify-content-between align-items-xl-center"
+                                            style="margin: 16px 0px 0px 0px;">
+                                            <div>
+                                                <button class="btn btn-success btnTestMagento btn-auto-testMagento"
+                                                    id="testMagento" type="button"><i class="fa fa-play"
+                                                        style="margin-right: 5px;"></i>Test {{idxRecord}}</button>
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-success btnSave btn-auto-save" id="saveMagento"
+                                                    type="button"><i class="fa fa-save"
+                                                        style="margin-right: 5px;"></i>Save</button>
+                                                <button class="btn btn-success btnUpdate btn-auto-update"
+                                                    style="display: none;" id="updateMagento" type="button"><i
+                                                        class="fa fa-save"
+                                                        style="margin-right: 5px;"></i>Update</button>
+                                                <button class="btn btn-danger btnDelete" type="button"
+                                                    data-toggle="modal"><i class="fas fa-trash-alt"
+                                                        style="margin-right: 5px;"></i> Delete</button>
+                                                <button class="btn btn-secondary btnBack" type="button"><i
+                                                        class="fa fa-close"
+                                                        style="margin-right: 5px;"></i>Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{ else }}
+                                    <div class="col-3">
+                                        <ul class="nav nav-tabs nav-fill">
+                                            <!-- <li class="nav-item navIdx1" style="cursor: pointer; width: 100%">
+                                                <a class="nav-link mainTab customerTab active" role="tab"
+                                                    data-toggle="tab" data-target="#tab-1" data-id="tab-1">
+                                                    Customer Idendtify
+                                                </a>
+                                            </li>
+                                            <li class="nav-item navIdx1" style="cursor: pointer; width: 100%">
+                                                <a class="nav-link mainTab customerTab" role="tab"
+                                                    data-toggle="tab" data-target="#tab-2" data-id="tab-1">
+                                                    Accounting Soft
+                                                </a>
+                                            </li>
+                                            <li class="nav-item navIdx2" id="nav22222"
+                                                style="cursor: pointer; width: 100%">
+                                                <a class="nav-link mainTab customerTab" role="tab" data-toggle="tab"
+                                                    data-target="#tab-2" data-id="tab-2">
+                                                    Connection Soft
+                                                </a>
+                                            </li> -->
+                                            <li class="nav-item navIdx1" style="cursor: pointer; width: 100%">
+                                                <a class="nav-link mainTab customerTab active" role="tab"
+                                                    data-toggle="tab" data-target="#tab-1" data-id="tab-1">
+                                                    {{account}}
+                                                </a>
+                                            </li>
+                                            <li class="nav-item navIdx2" id="nav22222"
+                                                style="cursor: pointer; width: 100%">
+                                                <a class="nav-link mainTab customerTab" role="tab" data-toggle="tab"
+                                                    data-target="#tab-2" data-id="tab-2">
+                                                    {{connection}}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="tab-pane" role="tabpanel" id="tab-3">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-7">
+                                        {{#if equals idxRecord "Amazon" }}
+                                        <div class="row">
+                                            <div class="col d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Client Key</label>
+                                                    <input type="text" class="form-control" id="magento_client_key"
+                                                        name="edtFirstName" value="{{record.client_key}}">
+                                                </div>
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap" style="padding: 12px"></label>
+                                                    {{> toggle_button
+                                                    className="chkGlobalSettings"
+                                                    id="amazon_enabled_toggle"
+                                                    width="131px"
+                                                    for="amazon_enabled_toggle"
+                                                    displayName="Enabled"
+                                                    isChecked=record.enabled
+                                                    }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Client Secret</label>
+                                                    <input type="text" class="form-control" id="amazon_client_secret"
+                                                        name="edtFirstName" value="{{record.client_secret}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Endpoint</label>
+                                                    <input type="text" class="form-control" id="amazon_endpoint"
+                                                        name="edtFirstName" value="{{record.endpoint}}">
+                                                </div>
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Marketplace ID</label>
+                                                    <input type="text" class="form-control" id="amazon_marketpace_id"
+                                                        name="edtFirstName" value="{{record.marketplace_id}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-xl-flex justify-content-between align-items-xl-center"
+                                            style="margin: 16px 0px 0px 0px;">
+                                            <div>
+                                                <button class="btn btn-success btnTestMagento btn-auto-testMagento"
+                                                    id="testMagento" type="button"><i class="fa fa-play"
+                                                        style="margin-right: 5px;"></i>Test {{idxRecord}}</button>
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-success btnSave btn-auto-save" id="saveMagento"
+                                                    type="button"><i class="fa fa-save"
+                                                        style="margin-right: 5px;"></i>Save</button>
+                                                <button class="btn btn-success btnUpdate btn-auto-update"
+                                                    style="display: none;" id="updateMagento" type="button"><i
+                                                        class="fa fa-save"
+                                                        style="margin-right: 5px;"></i>Update</button>
+                                                <button class="btn btn-danger btnDelete" type="button"
+                                                    data-toggle="modal"><i class="fas fa-trash-alt"
+                                                        style="margin-right: 5px;"></i> Delete</button>
+                                                <button class="btn btn-secondary btnBack" type="button"><i
+                                                        class="fa fa-close"
+                                                        style="margin-right: 5px;"></i>Cancel</button>
+                                            </div>
+                                        </div>
+                                        {{else if equals idxRecord "Customer Identify"}}
+                                        {{else if equals idxRecord "Accounting Soft"}}
+                                        {{else if equals idxRecord "Connection Soft"}}
+                                        {{else if equals idxRecord "Magento"}}
+                                        <div class="drawing-pan3">
+                                            <div class="row">
+                                                <div class="col d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                    <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                        <label class="text-nowrap">Company ID</label>
+                                                        <input type="text" class="form-control"
+                                                            id="magento_company_name" name="edtFirstName"
+                                                            value="{{record.company_name}}">
+                                                    </div>
+                                                    <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                        <label class="text-nowrap" style="padding: 12px"></label>
+                                                        {{> toggle_button
+                                                        className="chkGlobalSettings"
+                                                        id="magento_enabled_toggle"
+                                                        width="131px"
+                                                        for="magento_enabled_toggle"
+                                                        displayName="Enabled"
+                                                        isChecked=record.enabled
+                                                        }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                    <div class="form-group flex-grow-1"
+                                                        style="margin: 4px;padding-left:4px;">
+                                                        <label class="text-nowrap">Consumer Key</label>
+                                                        <input type="text" class="form-control"
+                                                            id="magento_consumer_key" name="edtMiddleName"
+                                                            value="{{record.consumer_key}}">
+                                                    </div>
+                                                    <div class="form-group flex-grow-1"
+                                                        style="margin: 4px; padding-left:4px;">
+                                                        <label class="text-nowrap">Consumer Secret</label>
+                                                        <input type="text" class="form-control"
+                                                            id="magento_consumer_secret" name="edtLastName"
+                                                            value="{{record.consumer_secret}}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                    <div class="form-group flex-grow-1"
+                                                        style="margin: 4px;padding-left:4px;">
+                                                        <label class="text-nowrap">Admin User Name</label>
+                                                        <input type="text" class="form-control"
+                                                            id="magento_admin_user_name" name="edtMiddleName"
+                                                            value="{{record.admin_user_name}}">
+                                                    </div>
+                                                    <div class="form-group flex-grow-1"
+                                                        style="margin: 4px; padding-left:4px;">
+                                                        <label class="text-nowrap">Admin User Password</label>
+                                                        <input type="text" class="form-control"
+                                                            id="magento_admin_user_password" name="edtLastName"
+                                                            value="{{record.admin_user_password}}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                    <div class="form-group flex-grow-1"
+                                                        style="margin: 4px;padding-left:4px;">
+                                                        <label class="text-nowrap">Base API URL</label>
+                                                        <input type="text" class="form-control"
+                                                            id="magento_base_api_url" name="edtMiddleName"
+                                                            value="{{record.base_api_url}}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                    <div class="form-group flex-grow-1"
+                                                        style="margin: 4px;padding-left:4px;">
+                                                        <label class="text-nowrap">Access Token</label>
+                                                        <input type="text" class="form-control"
+                                                            id="magento_access_token" name="magento_access_token"
+                                                            value="{{record.access_token}}">
+                                                    </div>
+                                                    <div class="form-group flex-grow-1"
+                                                        style="margin: 4px; padding-left:4px;">
+                                                        <label class="text-nowrap">Access Token Secret</label>
+                                                        <input type="text" class="form-control"
+                                                            id="magento_access_token_secret"
+                                                            name="magento_access_token_secret"
+                                                            value="{{record.access_token_secret}}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row transferOption">
+                                                <div class="col-12 col-lg-4" id="whatTransfer">
+                                                    <h5 style="margin-bottom: 8px;">Type of Transfer</h5>
+                                                    {{> toggle_button
+                                                    className="chkGlobalSettings mt-4"
+                                                    id="erp_customers2magento"
+                                                    width="80px"
+                                                    for="erp_customers2magento"
+                                                    displayName="ERP Customers"
+                                                    labelclass='mt-2'
+                                                    isChecked=true
+                                                    }}
+                                                    {{> toggle_button
+                                                    className="chkGlobalSettings mt-4"
+                                                    id="erp_products2magento"
+                                                    width="80px"
+                                                    for="erp_products2magento"
+                                                    displayName="ERP Products"
+                                                    labelclass='mt-3'
+                                                    isChecked=false
+                                                    }}
+                                                    {{> toggle_button
+                                                    className="chkGlobalSettings mt-4"
+                                                    id="erp_product_options2magento"
+                                                    width="80px"
+                                                    for="erp_product_options2magento"
+                                                    displayName="ERP Product Options"
+                                                    labelclass='mt-3'
+                                                    isChecked=false
+                                                    }}
+                                                    {{> toggle_button
+                                                    className="chkGlobalSettings mt-4"
+                                                    id="erp_products_qty2magento"
+                                                    width="80px"
+                                                    for="erp_products_qty2magento"
+                                                    displayName="ERP Products Qty"
+                                                    labelclass='mt-3'
+                                                    isChecked=false
+                                                    }}
+                                                    {{> toggle_button
+                                                    className="chkGlobalSettings mt-4"
+                                                    id="erp_products_pictures2magento"
+                                                    width="80px"
+                                                    for="erp_products_pictures2magento"
+                                                    displayName="ERP Products Pictures"
+                                                    labelclass='mt-3'
+                                                    isChecked=false
+                                                    }}
+                                                </div>
+                                                <div class="col-12 col-lg-4"
+                                                    style="padding: 0; border-right: solid gray 1px;">
+                                                    <div class="row" style="padding-left: 20px;">
+                                                        <div class="form-group"
+                                                            style="margin-left: 4px;padding-left:4px; width: 80%;">
+                                                            <label class="text-nowrap">
+                                                                <h5 style="margin-bottom: 8px;">Identifier</h5>
+                                                            </label>
+                                                            <select class="form-control" id="magento_cIdentify"
+                                                                name="cIdentify" style="cursor: pointer;">
+                                                                {{#if equals record.customer_identified_by 0}}
+                                                                <option value="0" selected>Email</option>
+                                                                <option value="1">CustomerID</option>
+                                                                {{else}}
+                                                                <option value="0">Email</option>
+                                                                <option value="1" selected>CustomerID</option>
+                                                                {{/if}}
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group"
+                                                            style="margin-left: 4px;padding-left:4px; width: 80%">
+                                                            <select class="form-control" id="magento_pName" name="pName"
+                                                                style="cursor: pointer;">
+                                                                {{#if equals record.product_name 0}}
+                                                                <option value="0" selected>Product Id</option>
+                                                                <option value="1">Print Name</option>
+                                                                {{else}}
+                                                                <option value="0">Product Id</option>
+                                                                <option value="1" selected>Print Name</option>
+                                                                {{/if}}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-lg-4" style="padding: 0;">
+                                                    <div class="form-group"
+                                                        style="margin-left: 4px;padding-left:4px; width: 80%">
+                                                        <h5 style="margin-bottom: 8px; text-align: center;">Product
+                                                            Filter:</h5>
+                                                        <!-- <div style="align-items: center;"> -->
+                                                        <button class="btn btn-primary btnFilter" id="btnFilterOption"
+                                                            type="button"><i class="fa fa-filter"
+                                                                style="margin-right: 5px;"></i>Filter
+                                                            Options</button>
+                                                        <!-- </div> -->
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="col-2 d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                    <div class="form-group flex-grow-1"
+                                                        style="margin: 4px;padding-left:4px;">
+                                                        <label class="text-nowrap">Sync Page Size</label>
+                                                        <input type="text" class="form-control"
+                                                            id="magento_sync_page_size" name="edtMiddleName"
+                                                            value="{{record.synch_page_size}}">
+                                                    </div>
+                                                </div> -->
+                                            </div>
+                                            <div class="d-xl-flex justify-content-between align-items-xl-center"
+                                                style="margin: 16px 0px 0px 0px;">
+                                                <div>
+                                                    <button class="btn btn-success btnTestMagento btn-auto-testMagento"
+                                                        id="testMagento" type="button"><i class="fa fa-play"
+                                                            style="margin-right: 5px;"></i>Test {{idxRecord}}</button>
+                                                </div>
+                                                <div>
+                                                    <button class="btn btn-success btnSave btn-auto-save"
+                                                        id="saveMagento" type="button"><i class="fa fa-save"
+                                                            style="margin-right: 5px;"></i>Save</button>
+                                                    <button class="btn btn-success btnUpdate btn-auto-update"
+                                                        style="display: none;" id="updateMagento" type="button"><i
+                                                            class="fa fa-save"
+                                                            style="margin-right: 5px;"></i>Update</button>
+                                                    <button class="btn btn-danger btnDelete" type="button"
+                                                        data-toggle="modal"><i class="fas fa-trash-alt"
+                                                            style="margin-right: 5px;"></i> Delete</button>
+                                                    <button class="btn btn-secondary btnBack" type="button"><i
+                                                            class="fa fa-close"
+                                                            style="margin-right: 5px;"></i>Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{ else if equals idxRecord "Route4Me" }}
+                                        <div class="row">
+                                            <div class="col d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">API Key</label>
+                                                    <input type="text" class="form-control" id="route4me_user_name"
+                                                        name="edtFirstName" value="{{record.api_key}}">
+                                                </div>
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap" style="padding: 12px"></label>
+                                                    {{> toggle_button
+                                                    className="chkGlobalSettings"
+                                                    id="route4me_enabled"
+                                                    width="131px"
+                                                    for="route4me_enabled"
+                                                    displayName="Enabled"
+                                                    isChecked=record.enabled
+                                                    }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col d-xl-flex align-items-xl-start row" style="padding: 0;">
+                                                <div class="form-group flex-grow-1"
+                                                    style="margin: 4px;padding-left:4px;">
+                                                    <label class="text-nowrap">Base URL</label>
+                                                    <input type="text" class="form-control" id="route4me_base_url"
+                                                        name="edtMiddleName" value="{{record.base_url}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-xl-flex justify-content-between align-items-xl-center"
+                                            style="margin: 16px 0px 0px 0px;">
+                                            <div>
+                                                <button class="btn btn-success btnTestMagento btn-auto-testMagento"
+                                                    id="testMagento" type="button"><i class="fa fa-play"
+                                                        style="margin-right: 5px;"></i>Test {{idxRecord}}</button>
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-success btnSave btn-auto-save" id="saveMagento"
+                                                    type="button"><i class="fa fa-save"
+                                                        style="margin-right: 5px;"></i>Save</button>
+                                                <button class="btn btn-success btnUpdate btn-auto-update"
+                                                    style="display: none;" id="updateMagento" type="button"><i
+                                                        class="fa fa-save"
+                                                        style="margin-right: 5px;"></i>Update</button>
+                                                <button class="btn btn-danger btnDelete" type="button"
+                                                    data-toggle="modal"><i class="fas fa-trash-alt"
+                                                        style="margin-right: 5px;"></i> Delete</button>
+                                                <button class="btn btn-secondary btnBack" type="button"><i
+                                                        class="fa fa-close"
+                                                        style="margin-right: 5px;"></i>Cancel</button>
+                                            </div>
+                                        </div>
+                                        {{ else if equals idxRecord "Sage Accounting" }}
+                                        <div class="row">
+                                            <div class="col d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Client Key</label>
+                                                    <input type="text" class="form-control"
+                                                        id="sageaccounting_token_name" name="edtFirstName"
+                                                        value="{{record.token_name}}">
+                                                </div>
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap" style="padding: 12px"></label>
+                                                    {{> toggle_button
+                                                    className="chkGlobalSettings"
+                                                    id="sageaccounting_enabled_toggle"
+                                                    width="131px"
+                                                    for="sageaccounting_enabled_toggle"
+                                                    displayName="Enabled"
+                                                    isChecked=record.enabled
+                                                    }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Grant Type</label>
+                                                    <input type="text" class="form-control"
+                                                        id="sageaccounting_grant_type" name="edtFirstName"
+                                                        value="{{record.grant_type}}">
+                                                </div>
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Callback URL</label>
+                                                    <input type="text" class="form-control"
+                                                        id="sageaccounting_callback_url" name="edtFirstName"
+                                                        value="{{record.callback_url}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Auth URL</label>
+                                                    <input type="text" class="form-control" id="sageaccounting_auth_url"
+                                                        name="edtFirstName" value="{{record.auth_url}}">
+                                                </div>
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Access Token URL</label>
+                                                    <input type="text" class="form-control"
+                                                        id="sageaccounting_access_token_url" name="edtFirstName"
+                                                        value="{{record.access_token_url}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Client ID</label>
+                                                    <input type="text" class="form-control"
+                                                        id="sageaccounting_client_id" name="edtFirstName"
+                                                        value="{{record.client_id}}">
+                                                </div>
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Client Secret</label>
+                                                    <input type="text" class="form-control"
+                                                        id="sageaccounting_client_secret" name="edtFirstName"
+                                                        value="{{record.client_secret}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Scope</label>
+                                                    <input type="text" class="form-control" id="sageaccounting_scope"
+                                                        name="edtFirstName" value="{{record.scope}}">
+                                                </div>
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">State</label>
+                                                    <input type="text" class="form-control" id="sageaccounting_state"
+                                                        name="edtFirstName" value="{{record.state}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Client Authentication</label>
+                                                    <input type="text" class="form-control"
+                                                        id="sageaccounting_client_authentication" name="edtFirstName"
+                                                        value="{{record.client_authentication}}">
+                                                </div>
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Access Token</label>
+                                                    <input type="text" class="form-control"
+                                                        id="sageaccounting_access_token" name="edtFirstName"
+                                                        value="{{record.access_token}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Refresh Token</label>
+                                                    <input type="text" class="form-control"
+                                                        id="sageaccounting_refresh_token" name="edtFirstName"
+                                                        value="{{record.refresh_token}}">
+                                                </div>
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Base URL</label>
+                                                    <input type="text" class="form-control" id="sageaccounting_base_url"
+                                                        name="edtFirstName" value="{{record.base_url}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-xl-flex justify-content-between align-items-xl-center"
+                                            style="margin: 16px 0px 0px 0px;">
+                                            <div>
+                                                <button class="btn btn-success btnTestMagento btn-auto-testMagento"
+                                                    id="testMagento" type="button"><i class="fa fa-play"
+                                                        style="margin-right: 5px;"></i>Test {{idxRecord}}</button>
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-success btnSave btn-auto-save" id="saveMagento"
+                                                    type="button"><i class="fa fa-save"
+                                                        style="margin-right: 5px;"></i>Save</button>
+                                                <button class="btn btn-success btnUpdate btn-auto-update"
+                                                    style="display: none;" id="updateMagento" type="button"><i
+                                                        class="fa fa-save"
+                                                        style="margin-right: 5px;"></i>Update</button>
+                                                <button class="btn btn-danger btnDelete" type="button"
+                                                    data-toggle="modal"><i class="fas fa-trash-alt"
+                                                        style="margin-right: 5px;"></i> Delete</button>
+                                                <button class="btn btn-secondary btnBack" type="button"><i
+                                                        class="fa fa-close"
+                                                        style="margin-right: 5px;"></i>Cancel</button>
+                                            </div>
+                                        </div>
+                                        {{ else if equals idxRecord "TrueERP" }}
+                                        <div class="row">
+                                            <div class="form-group col-md-4">
+                                                <label class="text-nowrap">User Name</label>
+                                                <input type="text" class="form-control" id="trueerp_user_name"
+                                                    name="edtFirstName" value="{{record.user_name}}">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label class="text-nowrap">Password</label>
+                                                <input type="text" class="form-control" id="trueerp_password"
+                                                    name="edtFirstName" value="{{record.password}}">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label class="text-nowrap" style="padding: 12px"></label>
+                                                {{> toggle_button
+                                                className="chkGlobalSettings"
+                                                id="trueerp_enabled"
+                                                width="131px"
+                                                for="trueerp_enabled"
+                                                displayName="Enabled"
+                                                isChecked=record.enabled
+                                                }}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-4">
+                                                <label class="text-nowrap">Database</label>
+                                                <input type="text" class="form-control" id="trueerp_database"
+                                                    name="edtMiddleName" value="{{record.database}}">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label class="text-nowrap">Client ID</label>
+                                                <input type="text" class="form-control" id="trueerp_id"
+                                                    name="edtLastName" value="{{record.id}}" disabled>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label class="text-nowrap">Base URL</label>
+                                                <input type="text" class="form-control" id="trueerp_base_url"
+                                                    name="edtMiddleName" value="{{record.base_url}}">
+                                            </div>
+                                        </div>
+                                        {{ #if equals connection "Magento" }}
+                                        <div class="row transferOption">
+                                            <div class="col-12 col-lg-4" id="whatTransfer">
+                                                <h5 style="margin-bottom: 8px;">Type of Transfer</h5>
+                                                {{> toggle_button
+                                                className="chkGlobalSettings mt-3"
+                                                id="magento_invoices2magento"
+                                                width="80px"
+                                                for="magento_invoices2magento"
+                                                displayName="Magento Invoices"
+                                                labelclass='mt-2'
+                                                isChecked=true
+                                                }}
+                                                {{> toggle_button
+                                                className="chkGlobalSettings mt-3"
+                                                id="magento_customers2magento"
+                                                width="80px"
+                                                for="magento_customers2magento"
+                                                displayName="Magento Customers"
+                                                labelclass='mt-3'
+                                                isChecked=false
+                                                }}
+                                            </div>
+                                            <div class="col-12 col-lg-4"
+                                                style="padding: 0; border-right: solid gray 1px;">
+                                                <div class="row" style="padding-left: 20px;">
+                                                    <div class="form-group"
+                                                        style="margin-left: 4px;padding-left:4px; width: 80%;">
+                                                        <label class="text-nowrap">
+                                                            <h5 style="margin-bottom: 8px;">Identifier</h5>
+                                                        </label>
+                                                        <select class="form-control" id="magento_cIdentify"
+                                                            name="cIdentify" style="cursor: pointer;">
+                                                            {{#if equals record.customer_identified_by 0}}
+                                                            <option value="1" selected>Invoice</option>
+                                                            <option value="0">Sales Order</option>
+                                                            {{else}}
+                                                            <option value="0">Invoice</option>
+                                                            <option value="1" selected>Sales Order</option>
+                                                            {{/if}}
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group"
+                                                        style="margin-left: 4px;padding-left:4px; width: 80%">
+                                                        <select class="form-control" id="magento_pName" name="pName"
+                                                            style="cursor: pointer;">
+                                                            {{#if equals record.product_name 0}}
+                                                            <option value="1" selected>Email</option>
+                                                            <option value="0">CustomerID</option>
+                                                            {{else}}
+                                                            <option value="0">Email</option>
+                                                            <option value="1" selected>CustomerID</option>
+                                                            {{/if}}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-4" style="padding: 0;">
+                                                <div class="form-group"
+                                                    style="margin-left: 4px;padding-left:4px; width: 80%">
+                                                    <h5 style="margin-bottom: 8px; text-align: center;">Product
+                                                        Filter:</h5>
+                                                    <!-- <div style="align-items: center;"> -->
+                                                    <button class="btn btn-primary btnFilter" id="btnFilterOption"
+                                                        type="button"><i class="fa fa-filter"
+                                                            style="margin-right: 5px;"></i>Filter
+                                                        Options</button>
+                                                    <!-- </div> -->
+                                                </div>
+                                            </div>
+                                            <!-- <div class="col-2 d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                <div class="form-group flex-grow-1"
+                                                    style="margin: 4px;padding-left:4px;">
+                                                    <label class="text-nowrap">Sync Page Size</label>
+                                                    <input type="text" class="form-control"
+                                                        id="magento_sync_page_size" name="edtMiddleName"
+                                                        value="{{record.synch_page_size}}">
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                        {{ /if }}
+                                        {{ #if equals connection "WooCommerce" }}
+                                        <div class="row transferOption">
+                                            <div class="col-12 col-lg-4" id="whatTransfer">
+                                                <h5 style="margin-bottom: 8px;">Type of Transfer</h5>
+                                                {{> toggle_button
+                                                className="chkGlobalSettings mt-3"
+                                                id="magento_invoices2magento"
+                                                width="80px"
+                                                for="magento_invoices2magento"
+                                                displayName="Magento Invoices"
+                                                labelclass='mt-2'
+                                                isChecked=true
+                                                }}
+                                                {{> toggle_button
+                                                className="chkGlobalSettings mt-3"
+                                                id="magento_customers2magento"
+                                                width="80px"
+                                                for="magento_customers2magento"
+                                                displayName="Magento Customers"
+                                                labelclass='mt-3'
+                                                isChecked=false
+                                                }}
+                                            </div>
+                                            <div class="col-12 col-lg-4"
+                                                style="padding: 0; border-right: solid gray 1px;">
+                                                <div class="row" style="padding-left: 20px;">
+                                                    <div class="form-group"
+                                                        style="margin-left: 4px;padding-left:4px; width: 80%;">
+                                                        <label class="text-nowrap">
+                                                            <h5 style="margin-bottom: 8px;">Identifier</h5>
+                                                        </label>
+                                                        <select class="form-control" id="magento_cIdentify"
+                                                            name="cIdentify" style="cursor: pointer;">
+                                                            {{#if equals record.customer_identified_by 0}}
+                                                            <option value="1" selected>Invoice</option>
+                                                            <option value="0">Sales Order</option>
+                                                            {{else}}
+                                                            <option value="0">Invoice</option>
+                                                            <option value="1" selected>Sales Order</option>
+                                                            {{/if}}
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group"
+                                                        style="margin-left: 4px;padding-left:4px; width: 80%">
+                                                        <select class="form-control" id="magento_pName" name="pName"
+                                                            style="cursor: pointer;">
+                                                            {{#if equals record.product_name 0}}
+                                                            <option value="1" selected>Email</option>
+                                                            <option value="0">CustomerID</option>
+                                                            {{else}}
+                                                            <option value="0">Email</option>
+                                                            <option value="1" selected>CustomerID</option>
+                                                            {{/if}}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-4" style="padding: 0;">
+                                                <div class="form-group"
+                                                    style="margin-left: 4px;padding-left:4px; width: 80%">
+                                                    <h5 style="margin-bottom: 8px; text-align: center;">Product
+                                                        Filter:</h5>
+                                                    <!-- <div style="align-items: center;"> -->
+                                                    <button class="btn btn-primary btnFilter" id="btnFilterOption"
+                                                        type="button"><i class="fa fa-filter"
+                                                            style="margin-right: 5px;"></i>Filter
+                                                        Options</button>
+                                                    <!-- </div> -->
+                                                </div>
+                                            </div>
+                                            <!-- <div class="col-2 d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                <div class="form-group flex-grow-1"
+                                                    style="margin: 4px;padding-left:4px;">
+                                                    <label class="text-nowrap">Sync Page Size</label>
+                                                    <input type="text" class="form-control"
+                                                        id="magento_sync_page_size" name="edtMiddleName"
+                                                        value="{{record.synch_page_size}}">
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                        {{ /if }}
+                                        {{ #if equals connection "Zoho" }}
+                                        <div class="row transferOption">
+                                            <div class="col-12 col-lg-4" id="whatTransfer">
+                                                <h5 style="margin-bottom: 8px;">Type of Transfer</h5>
+                                                {{> toggle_button
+                                                className="chkGlobalSettings mt-3"
+                                                id="zoho_quotes2magento"
+                                                width="80px"
+                                                for="zoho_quotes2magento"
+                                                displayName="ZOHO Quotes"
+                                                labelclass='mt-2'
+                                                isChecked=true
+                                                }}
+                                                {{> toggle_button
+                                                className="chkGlobalSettings mt-3"
+                                                id="zoho_sales_orders2magento"
+                                                width="80px"
+                                                for="zoho_sales_orders2magento"
+                                                displayName="ZOHO Sales Orders"
+                                                labelclass='mt-3'
+                                                isChecked=false
+                                                }}
+                                                {{> toggle_button
+                                                className="chkGlobalSettings mt-3"
+                                                id="zoho_leads_prospects2magento"
+                                                width="80px"
+                                                for="zoho_leads_prospects2magento"
+                                                displayName="ZOHO Leads to Prospects"
+                                                labelclass='mt-3'
+                                                isChecked=false
+                                                }}
+                                                {{> toggle_button
+                                                className="chkGlobalSettings mt-3"
+                                                id="zoho_contract_customers2magento"
+                                                width="80px"
+                                                for="zoho_contract_customers2magento"
+                                                displayName="ZOHO Contacts to Customers"
+                                                labelclass='mt-3'
+                                                isChecked=false
+                                                }}
+                                            </div>
+                                            <div class="col-12 col-lg-4"
+                                                style="padding: 0; border-right: solid gray 1px;">
+                                                <div class="row" style="padding-left: 20px;">
+                                                    <div class="form-group"
+                                                        style="margin-left: 4px;padding-left:4px; width: 80%;">
+                                                        <label class="text-nowrap">
+                                                            <h5 style="margin-bottom: 8px;">Identifier</h5>
+                                                        </label>
+                                                        <select class="form-control" id="magento_pName" name="pName"
+                                                            style="cursor: pointer;">
+                                                            {{#if equals record.product_name 0}}
+                                                            <option value="1" selected>Email</option>
+                                                            <option value="0">CustomerID</option>
+                                                            {{else}}
+                                                            <option value="0">Email</option>
+                                                            <option value="1" selected>CustomerID</option>
+                                                            {{/if}}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-4" style="padding: 0;">
+                                                <div class="form-group"
+                                                    style="margin-left: 4px;padding-left:4px; width: 80%">
+                                                    <h5 style="margin-bottom: 8px; text-align: center;">Product
+                                                        Filter:</h5>
+                                                    <!-- <div style="align-items: center;"> -->
+                                                    <button class="btn btn-primary btnFilter" id="btnFilterOption"
+                                                        type="button"><i class="fa fa-filter"
+                                                            style="margin-right: 5px;"></i>Filter
+                                                        Options</button>
+                                                    <!-- </div> -->
+                                                </div>
+                                            </div>
+                                            <!-- <div class="col-2 d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                <div class="form-group flex-grow-1"
+                                                    style="margin: 4px;padding-left:4px;">
+                                                    <label class="text-nowrap">Sync Page Size</label>
+                                                    <input type="text" class="form-control"
+                                                        id="magento_sync_page_size" name="edtMiddleName"
+                                                        value="{{record.synch_page_size}}">
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                        {{ /if }}
+                                        <div class="d-xl-flex justify-content-between align-items-xl-center"
+                                            style="margin: 16px 0px 0px 0px;">
+                                            <div>
+                                                <button class="btn btn-success btnTestERP btn-auto-testERP"
+                                                    id="btnTestERP" type="button"><i class="fa fa-play"
+                                                        style="margin-right: 5px;"></i>Test ERP</button>
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-success btnSave btn-auto-save" id="saveTrueERP"
+                                                    type="button"><i class="fa fa-save"
+                                                        style="margin-right: 5px;"></i>Save</button>
+                                                <button class="btn btn-success btnUpdate btn-auto-update"
+                                                    style="display: none;" id="updateTrueERP" type="button"><i
+                                                        class="fa fa-save"
+                                                        style="margin-right: 5px;"></i>Update</button>
+                                                <button class="btn btn-danger btnDelete" type="button"
+                                                    data-toggle="modal"><i class="fas fa-trash-alt"
+                                                        style="margin-right: 5px;"></i> Delete</button>
+                                                <button class="btn btn-secondary btnBack" type="button"><i
+                                                        class="fa fa-close"
+                                                        style="margin-right: 5px;"></i>Cancel</button>
+                                            </div>
+                                        </div>
+                                        {{ else if equals idxRecord "WooCommerce" }}
+                                        <div class="row">
+                                            <div class="col d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Key</label>
+                                                    <input type="text" class="form-control" id="woocommerce_key"
+                                                        name="edtFirstName" value="{{record.key}}">
+                                                </div>
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap" style="padding: 12px"></label>
+                                                    {{> toggle_button
+                                                    className="chkGlobalSettings"
+                                                    id="woocommerce_enabled"
+                                                    width="131px"
+                                                    for="woocommerce_enabled"
+                                                    displayName="Enabled"
+                                                    isChecked=record.enabled
+                                                    }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col d-xl-flex align-items-xl-start row" style="padding: 0;">
+                                                <div class="form-group flex-grow-1"
+                                                    style="margin: 4px;padding-left:4px;">
+                                                    <label class="text-nowrap">Secret</label>
+                                                    <input type="text" class="form-control" id="woocommerce_secret"
+                                                        name="edtMiddleName" value="{{record.secret}}">
+                                                </div>
+                                                <div class="form-group flex-grow-1"
+                                                    style="margin: 4px; padding-left:4px;">
+                                                    <label class="text-nowrap">Base URL</label>
+                                                    <input type="text" class="form-control" id="woocommerce_base_url"
+                                                        name="edtLastName" value="{{record.base_url}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row transferOption">
+                                            <div class="col-12 col-lg-4" id="whatTransfer">
+                                                <h5 style="margin-bottom: 8px;">Type of Transfer</h5>
+                                                {{> toggle_button
+                                                className="chkGlobalSettings mt-3"
+                                                id="erp_customers2magento"
+                                                width="80px"
+                                                for="erp_customers2magento"
+                                                displayName="ERP Customers"
+                                                labelclass='mt-2'
+                                                isChecked=true
+                                                }}
+                                                {{> toggle_button
+                                                className="chkGlobalSettings mt-3"
+                                                id="erp_products2magento"
+                                                width="80px"
+                                                for="erp_products2magento"
+                                                displayName="ERP Products"
+                                                labelclass='mt-3'
+                                                isChecked=false
+                                                }}
+                                                {{> toggle_button
+                                                className="chkGlobalSettings mt-3"
+                                                id="erp_product_options2magento"
+                                                width="80px"
+                                                for="erp_product_options2magento"
+                                                displayName="ERP Product Options"
+                                                labelclass='mt-3'
+                                                isChecked=false
+                                                }}
+                                                {{> toggle_button
+                                                className="chkGlobalSettings mt-3"
+                                                id="erp_products_qty2magento"
+                                                width="80px"
+                                                for="erp_products_qty2magento"
+                                                displayName="ERP Products Qty"
+                                                labelclass='mt-3'
+                                                isChecked=false
+                                                }}
+                                                {{> toggle_button
+                                                className="chkGlobalSettings mt-3"
+                                                id="erp_products_pictures2magento"
+                                                width="80px"
+                                                for="erp_products_pictures2magento"
+                                                displayName="ERP Products Pictures"
+                                                labelclass='mt-3'
+                                                isChecked=false
+                                                }}
+                                            </div>
+                                            <div class="col-12 col-lg-4"
+                                                style="padding: 0; border-right: solid gray 1px;">
+                                                <div class="row" style="padding-left: 20px;">
+                                                    <div class="form-group"
+                                                        style="margin-left: 4px;padding-left:4px; width: 80%;">
+                                                        <label class="text-nowrap">
+                                                            <h5 style="margin-bottom: 8px;">Identifier</h5>
+                                                        </label>
+                                                        <select class="form-control" id="magento_cIdentify"
+                                                            name="cIdentify" style="cursor: pointer;">
+                                                            {{#if equals record.customer_identified_by 0}}
+                                                            <option value="0" selected>Email</option>
+                                                            <option value="1">CustomerID</option>
+                                                            {{else}}
+                                                            <option value="0">Email</option>
+                                                            <option value="1" selected>CustomerID</option>
+                                                            {{/if}}
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group"
+                                                        style="margin-left: 4px;padding-left:4px; width: 80%">
+                                                        <select class="form-control" id="magento_pName" name="pName"
+                                                            style="cursor: pointer;">
+                                                            {{#if equals record.product_name 0}}
+                                                            <option value="0" selected>Product Id</option>
+                                                            <option value="1">Print Name</option>
+                                                            {{else}}
+                                                            <option value="0">Product Id</option>
+                                                            <option value="1" selected>Print Name</option>
+                                                            {{/if}}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-4" style="padding: 0;">
+                                                <div class="form-group"
+                                                    style="margin-left: 4px;padding-left:4px; width: 80%">
+                                                    <h5 style="margin-bottom: 8px; text-align: center;">Product
+                                                        Filter:</h5>
+                                                    <!-- <div style="align-items: center;"> -->
+                                                    <button class="btn btn-primary btnFilter" id="btnFilterOption"
+                                                        type="button"><i class="fa fa-filter"
+                                                            style="margin-right: 5px;"></i>Filter
+                                                        Options</button>
+                                                    <!-- </div> -->
+                                                </div>
+                                            </div>
+                                            <!-- <div class="col-2 d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                <div class="form-group flex-grow-1"
+                                                    style="margin: 4px;padding-left:4px;">
+                                                    <label class="text-nowrap">Sync Page Size</label>
+                                                    <input type="text" class="form-control"
+                                                        id="magento_sync_page_size" name="edtMiddleName"
+                                                        value="{{record.synch_page_size}}">
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                        <div class="d-xl-flex justify-content-between align-items-xl-center"
+                                            style="margin: 16px 0px 0px 0px;">
+                                            <div>
+                                                <button class="btn btn-success btnTestMagento btn-auto-testMagento"
+                                                    id="testMagento" type="button"><i class="fa fa-play"
+                                                        style="margin-right: 5px;"></i>Test {{idxRecord}}</button>
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-success btnSave btn-auto-save" id="saveMagento"
+                                                    type="button"><i class="fa fa-save"
+                                                        style="margin-right: 5px;"></i>Save</button>
+                                                <button class="btn btn-success btnUpdate btn-auto-update"
+                                                    style="display: none;" id="updateMagento" type="button"><i
+                                                        class="fa fa-save"
+                                                        style="margin-right: 5px;"></i>Update</button>
+                                                <button class="btn btn-danger btnDelete" type="button"
+                                                    data-toggle="modal"><i class="fas fa-trash-alt"
+                                                        style="margin-right: 5px;"></i> Delete</button>
+                                                <button class="btn btn-secondary btnBack" type="button"><i
+                                                        class="fa fa-close"
+                                                        style="margin-right: 5px;"></i>Cancel</button>
+                                            </div>
+                                        </div>
+                                        {{ else if equals idxRecord "Xero" }}
+                                        <div class="row">
+                                            <div class="col d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Client Key</label>
+                                                    <input type="text" class="form-control" id="xero_token_name"
+                                                        name="edtFirstName" value="{{record.token_name}}">
+                                                </div>
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap" style="padding: 12px"></label>
+                                                    {{> toggle_button
+                                                    className="chkGlobalSettings"
+                                                    id="xero_enabled_toggle"
+                                                    width="131px"
+                                                    for="xero_enabled_toggle"
+                                                    displayName="Enabled"
+                                                    isChecked=record.enabled
+                                                    }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Grant Type</label>
+                                                    <input type="text" class="form-control" id="xero_grant_type"
+                                                        name="edtFirstName" value="{{record.grant_type}}">
+                                                </div>
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Callback URL</label>
+                                                    <input type="text" class="form-control" id="xero_callback_url"
+                                                        name="edtFirstName" value="{{record.callback_url}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Auth URL</label>
+                                                    <input type="text" class="form-control" id="xero_auth_url"
+                                                        name="edtFirstName" value="{{record.auth_url}}">
+                                                </div>
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Access Token URL</label>
+                                                    <input type="text" class="form-control" id="xero_access_token_url"
+                                                        name="edtFirstName" value="{{record.access_token_url}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Client ID</label>
+                                                    <input type="text" class="form-control" id="xero_client_id"
+                                                        name="edtFirstName" value="{{record.client_id}}">
+                                                </div>
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Client Secret</label>
+                                                    <input type="text" class="form-control" id="xero_client_secret"
+                                                        name="edtFirstName" value="{{record.client_secret}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Scope</label>
+                                                    <input type="text" class="form-control" id="xero_scope"
+                                                        name="edtFirstName" value="{{record.scope}}">
+                                                </div>
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">State</label>
+                                                    <input type="text" class="form-control" id="xero_state"
+                                                        name="edtFirstName" value="{{record.state}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Client Authentication</label>
+                                                    <input type="text" class="form-control"
+                                                        id="xero_client_authentication" name="edtFirstName"
+                                                        value="{{record.client_authentication}}">
+                                                </div>
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Access Token</label>
+                                                    <input type="text" class="form-control" id="xero_access_token"
+                                                        name="edtFirstName" value="{{record.access_token}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Refresh Token</label>
+                                                    <input type="text" class="form-control" id="xero_refresh_token"
+                                                        name="edtFirstName" value="{{record.refresh_token}}">
+                                                </div>
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Base URL</label>
+                                                    <input type="text" class="form-control" id="xero_base_url"
+                                                        name="edtFirstName" value="{{record.base_url}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col d-xl-flex align-items-xl-start col-6" style="padding: 0;">
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Connection ID</label>
+                                                    <input type="text" class="form-control" id="xero_connection_id"
+                                                        name="edtFirstName" value="{{record.connection_id}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-xl-flex justify-content-between align-items-xl-center"
+                                            style="margin: 16px 0px 0px 0px;">
+                                            <div>
+                                                <button class="btn btn-success btnTestMagento btn-auto-testMagento"
+                                                    id="testMagento" type="button"><i class="fa fa-play"
+                                                        style="margin-right: 5px;"></i>Test {{idxRecord}}</button>
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-success btnSave btn-auto-save" id="saveMagento"
+                                                    type="button"><i class="fa fa-save"
+                                                        style="margin-right: 5px;"></i>Save</button>
+                                                <button class="btn btn-success btnUpdate btn-auto-update"
+                                                    style="display: none;" id="updateMagento" type="button"><i
+                                                        class="fa fa-save"
+                                                        style="margin-right: 5px;"></i>Update</button>
+                                                <button class="btn btn-danger btnDelete" type="button"
+                                                    data-toggle="modal"><i class="fas fa-trash-alt"
+                                                        style="margin-right: 5px;"></i> Delete</button>
+                                                <button class="btn btn-secondary btnBack" type="button"><i
+                                                        class="fa fa-close"
+                                                        style="margin-right: 5px;"></i>Cancel</button>
+                                            </div>
+                                        </div>
+                                        {{ else if equals idxRecord "Zoho" }}
+                                        <div class="row">
+                                            <div class="col d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Client ID</label>
+                                                    <input type="text" class="form-control" id="zoho_client_id"
+                                                        name="edtFirstName" value="{{record.client_id}}">
+                                                </div>
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap">Client Secret</label>
+                                                    <input type="text" class="form-control" id="zoho_client_secret"
+                                                        name="edtFirstName" value="{{record.client_secret}}">
+                                                </div>
+                                                <div class="form-group flex-grow-1" style="margin: 4px;">
+                                                    <label class="text-nowrap" style="padding: 12px"></label>
+                                                    {{> toggle_button
+                                                    className="chkGlobalSettings"
+                                                    id="zoho_enabled"
+                                                    width="131px"
+                                                    for="zoho_enabled"
+                                                    displayName="Enabled"
+                                                    isChecked=record.enabled
+                                                    }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col d-xl-flex align-items-xl-start row" style="padding: 0;">
+                                                <div class="form-group flex-grow-1"
+                                                    style="margin: 4px;padding-left:4px;">
+                                                    <label class="text-nowrap">Authorization Code</label>
+                                                    <input type="text" class="form-control" id="zoho_authorization_code"
+                                                        name="edtMiddleName" value="{{record.authorization_code}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row transferOption">
+                                            <div class="col-12 col-lg-4" id="whatTransfer">
+                                                <h5 style="margin-bottom: 8px;">Type of Transfer</h5>
+                                                {{> toggle_button
+                                                className="chkGlobalSettings mt-3"
+                                                id="erp_sales_orders2magento"
+                                                width="80px"
+                                                for="erp_sales_orders2magento"
+                                                displayName="ERP Sales Orders"
+                                                labelclass='mt-2'
+                                                isChecked=true
+                                                }}
+                                                {{> toggle_button
+                                                className="chkGlobalSettings mt-3"
+                                                id="erp_customers2magento"
+                                                width="80px"
+                                                for="erp_customers2magento"
+                                                displayName="ERP Customers"
+                                                labelclass='mt-3'
+                                                isChecked=false
+                                                }}
+                                                {{> toggle_button
+                                                className="chkGlobalSettings mt-3"
+                                                id="erp_products2magento"
+                                                width="80px"
+                                                for="erp_products2magento"
+                                                displayName="ERP Products"
+                                                labelclass='mt-3'
+                                                isChecked=false
+                                                }}
+                                                {{> toggle_button
+                                                className="chkGlobalSettings mt-3"
+                                                id="erp_quotoes2magento"
+                                                width="80px"
+                                                for="erp_quotoes2magento"
+                                                displayName="ERP Quotoes"
+                                                labelclass='mt-3'
+                                                isChecked=false
+                                                }}
+                                            </div>
+                                            <div class="col-12 col-lg-4"
+                                                style="padding: 0; border-right: solid gray 1px;">
+                                                <div class="row" style="padding-left: 20px;">
+                                                    <div class="form-group"
+                                                        style="margin-left: 4px;padding-left:4px; width: 80%;">
+                                                        <label class="text-nowrap">
+                                                            <h5 style="margin-bottom: 8px;">Identifier</h5>
+                                                        </label>
+                                                        <select class="form-control" id="magento_cIdentify"
+                                                            name="cIdentify" style="cursor: pointer;">
+                                                            {{#if equals record.customer_identified_by 0}}
+                                                            <option value="0" selected>Email</option>
+                                                            <option value="1">CustomerID</option>
+                                                            {{else}}
+                                                            <option value="0">Email</option>
+                                                            <option value="1" selected>CustomerID</option>
+                                                            {{/if}}
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group"
+                                                        style="margin-left: 4px;padding-left:4px; width: 80%">
+                                                        <select class="form-control" id="magento_pName" name="pName"
+                                                            style="cursor: pointer;">
+                                                            {{#if equals record.product_name 0}}
+                                                            <option value="0" selected>Product Id</option>
+                                                            <option value="1">Print Name</option>
+                                                            {{else}}
+                                                            <option value="0">Product Id</option>
+                                                            <option value="1" selected>Print Name</option>
+                                                            {{/if}}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-4" style="padding: 0;">
+                                                <div class="form-group"
+                                                    style="margin-left: 4px;padding-left:4px; width: 80%">
+                                                    <h5 style="margin-bottom: 8px; text-align: center;">Product
+                                                        Filter:</h5>
+                                                    <!-- <div style="align-items: center;"> -->
+                                                    <button class="btn btn-primary btnFilter" id="btnFilterOption"
+                                                        type="button"><i class="fa fa-filter"
+                                                            style="margin-right: 5px;"></i>Filter
+                                                        Options</button>
+                                                    <!-- </div> -->
+                                                </div>
+                                            </div>
+                                            <!-- <div class="col-2 d-xl-flex align-items-xl-start" style="padding: 0;">
+                                                <div class="form-group flex-grow-1"
+                                                    style="margin: 4px;padding-left:4px;">
+                                                    <label class="text-nowrap">Sync Page Size</label>
+                                                    <input type="text" class="form-control"
+                                                        id="magento_sync_page_size" name="edtMiddleName"
+                                                        value="{{record.synch_page_size}}">
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                        <div class="d-xl-flex justify-content-between align-items-xl-center"
+                                            style="margin: 16px 0px 0px 0px;">
+                                            <div>
+                                                <button class="btn btn-success btnTestMagento btn-auto-testMagento"
+                                                    id="testMagento" type="button"><i class="fa fa-play"
+                                                        style="margin-right: 5px;"></i>Test {{idxRecord}}</button>
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-success btnSave btn-auto-save" id="saveMagento"
+                                                    type="button"><i class="fa fa-save"
+                                                        style="margin-right: 5px;"></i>Save</button>
+                                                <button class="btn btn-success btnUpdate btn-auto-update"
+                                                    style="display: none;" id="updateMagento" type="button"><i
+                                                        class="fa fa-save"
+                                                        style="margin-right: 5px;"></i>Update</button>
+                                                <button class="btn btn-danger btnDelete" type="button"
+                                                    data-toggle="modal"><i class="fas fa-trash-alt"
+                                                        style="margin-right: 5px;"></i> Delete</button>
+                                                <button class="btn btn-secondary btnBack" type="button"><i
+                                                        class="fa fa-close"
+                                                        style="margin-right: 5px;"></i>Cancel</button>
+                                            </div>
+                                        </div>
+                                        {{/if}}
+                                    </div>
+                                    {{ /if }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <textarea class="form-control" style="height: 150px; margin: 12px;" rows="4"
+                                    id="testNotes" name="testNotes">{{testNote}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    {{> _filterOptionModal}}
+    <!-- {{> customfiltersmodal}} -->
+    <script>
+        // modalDraggable();
+    </script>
+</template>

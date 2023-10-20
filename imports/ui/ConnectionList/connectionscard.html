@@ -397,72 +397,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row cardExtras">
-                                                <div class="col-12 col-lg-6" id="cardExtrasID">
-                                                    <h5 style="margin-bottom: 8px;">Customer Card Extras</h5>
-                                                    {{> toggle_button
-                                                    className="chkGlobalSettings mt-3"
-                                                    id="custom_type"
-                                                    width="80px"
-                                                    for="custom_type"
-                                                    displayName="Customer Type"
-                                                    labelclass='mt-2'
-                                                    isChecked=true
-                                                    }}
-                                                    {{> toggle_button
-                                                    className="chkGlobalSettings mt-3"
-                                                    id="default_invoice_template"
-                                                    width="80px"
-                                                    for="default_invoice_template"
-                                                    displayName="Default Invoice Template"
-                                                    labelclass='mt-3'
-                                                    isChecked=false
-                                                    }}
-                                                    {{> toggle_button
-                                                        className="chkGlobalSettings mt-3"
-                                                        id="use_related_customers"
-                                                        width="80px"
-                                                        for="use_related_customers"
-                                                        displayName="Use Related Customers"
-                                                        labelclass='mt-3'
-                                                        isChecked=false
-                                                        }}
-                                                </div>
-                                                <div class="col-12 col-lg-6"
-                                                    style="padding: 0; border-right: solid gray 1px;">
-                                                    <div class="row" style="padding-left: 20px;">
-                                                        <div class="form-group"
-                                                            style="margin-left: 4px;padding-left:4px; width: 80%;">
-                                                            <label class="text-nowrap">
-                                                                <h5 style="margin-bottom: 8px;">Options</h5>
-                                                            </label>
-                                                            <select class="form-control" id="options_custom"
-                                                                name="oOptions" style="cursor: pointer;">
-                                                                {{#if equals record.options_custom 0}}
-                                                                <option value="1" selected>Template 1</option>
-                                                                <option value="0">Template 2</option>
-                                                                {{else}}
-                                                                <option value="0">Template 2</option>
-                                                                <option value="1" selected>Template 1</option>
-                                                                {{/if}}
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group"
-                                                            style="margin-left: 4px;padding-left:4px; width: 80%">
-                                                            <select class="form-control" id="options_invoice" name="pName"
-                                                                style="cursor: pointer;">
-                                                                {{#if equals record.options_invoice 0}}
-                                                                <option value="1" selected>Invoice 1</option>
-                                                                <option value="0">Invoice 2</option>
-                                                                {{else}}
-                                                                <option value="0">Invoice 2</option>
-                                                                <option value="1" selected>Invoice 1</option>
-                                                                {{/if}}
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            
 
                                             <div class="row transferOption">
                                                 <div class="col-12 col-lg-4" id="whatTransfer">

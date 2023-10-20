@@ -68,7 +68,15 @@ a {
   border-radius: 5px;
 }
 
+.cardExtras{
+  border: double gray 4px;
+}
+
 #whatTransfer {
+  border-right: solid gray 1px;
+}
+
+#cardExtrasID{
   border-right: solid gray 1px;
 }
 

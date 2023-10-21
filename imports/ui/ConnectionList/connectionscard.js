@@ -22,7 +22,8 @@ Template.connectionscard.onCreated(function () {
     templateObject.action = ReactiveVar();
 
 
-    if (!FlowRouter.current().queryParams.id) templateObject.action.set('new');
+    if (!FlowRouter.current().queryParams.id) 
+         templateObject.action.set('new');
     else {
         const postData = {
             id: FlowRouter.current().queryParams.id

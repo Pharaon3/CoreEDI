@@ -15,7 +15,7 @@ export const config = {
 
     host: 'localhost',
     user: 'root',
-    // password: 'root',
+    password: '',
     database: 'coreedit',
     charset: 'utf8mb4' // Required for MySQL 8
 };
